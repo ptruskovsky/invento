@@ -27,20 +27,20 @@ namespace Invento.Api.Infrastructure
 
             _ = actionName switch
             {
-                "POST" => transformedHttpTerm = "query",
-                "GET" => transformedHttpTerm = "create",
-                "PUT" => transformedHttpTerm = "update",
-                "DELETE" => transformedHttpTerm = "delete",
+                "Get" => transformedHttpTerm = "query",
+                "Post" => transformedHttpTerm = "create",
+                "Put" => transformedHttpTerm = "update",
+                "Delete" => transformedHttpTerm = "delete",
                 _ => transformedHttpTerm = ""
             };
 
           
-            var requiredGetRoles = new[] { $"{controllerName}-{transformedHttpTerm}", $"{controllerName}-manage-all" };
-            if (!roles.Any(x => requiredGetRoles.Contains(x)))
-            {
-                context.Result = new UnauthorizedObjectResult(string.Empty);
-                return;
-            }
+            var requiredGetRoles = new[] { $"{controllerName}-{transformedHttpTerm}".ToLower(), $"{controllerName}-manage-all".ToLower() };
+            //if (!requiredGetRoles.Any(x => roles.Contains(x)))
+            //{
+            //    context.Result = new UnauthorizedObjectResult(string.Empty);
+            //    return;
+            //}
         }
     }
 }

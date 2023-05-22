@@ -1,4 +1,5 @@
-﻿using Invento.Api.Infrastructure;
+﻿using Invento.Api.DI.Services;
+using Invento.Api.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -9,10 +10,15 @@ namespace Invento.Api.Controllers
     [InventoAuth]
     public class ProjectController : Controller
     {
+        private readonly IProjectService _projectService;
+        public ProjectController(IProjectService projectService) { 
+            _projectService = projectService;
+        }
+
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            return Ok("Project");
+            return Ok(await _projectService.GetAllAsync());
         }
 
         [HttpPost]

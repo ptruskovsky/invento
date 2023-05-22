@@ -1,4 +1,8 @@
 using Invento.Api.Data;
+using Invento.Api.DI.Repositories;
+using Invento.Api.DI.Services;
+using Invento.Api.Repositories;
+using Invento.Api.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -47,7 +51,15 @@ namespace Invento.Api
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            builder.Services.AddScoped<ITaskRepository, TaskRepository>();
+            builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
+            builder.Services.AddScoped<ITaskService, TaskService>();
+            builder.Services.AddScoped<IProjectService, ProjectService>();
+
+
             var app = builder.Build();
+
+            DataSeed.AddData(app);
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

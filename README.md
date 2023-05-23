@@ -44,3 +44,4 @@ There are should be tokes in response
 	3) set keys.json as a part of response of http://localhost:8080/realms/invento/protocol/openid-connect/token
 	4) open ".sln" file and run the project from Visual Studio just pushing "Play" button, or you can try to build container in Docker and run it from there
 	5) no swagger was configured (just default implementation)
+	6) POSTMAN's API calls have been added to project

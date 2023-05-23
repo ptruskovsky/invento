@@ -46,6 +46,16 @@ namespace Invento.Api.Repositories
             await ctx.SaveChangesAsync();
         }
 
+        public async Task AttachTaskToProject(string taskId, string projectId, string? owner = null) {
+            using var ctx = _contextFactory.CreateWrite();
+            var existingProject = await ctx.Projects.FirstAsync(x => x.Id == projectId && (x.Owner == owner || owner == null));
+            var existingTask = await ctx.Tasks.FirstAsync(x => x.Id == taskId && (x.Owner == owner || owner == null));
+
+            existingProject.Tasks.Add(existingTask);
+
+            await ctx.SaveChangesAsync();
+        }
+
         public async Task SaveAsync(ProjectModel model)
         {
             using var ctx = _contextFactory.CreateWrite();
@@ -54,11 +64,28 @@ namespace Invento.Api.Repositories
 
             if (entity == null) 
             {
-                entity = new Data.Entities.Project {
+                entity = new Data.Entities.Project 
+                {
                     Id = Guid.NewGuid().ToString(),
                     IsActive = true,
                     Owner = model.Owner,
                 };
+
+                if (model.Tasks.Any()) 
+                {
+                    foreach (var task in model.Tasks) 
+                    {
+                        var newTask = new Data.Entities.Task {
+                            Id = Guid.NewGuid().ToString(),
+                            Name = task.Name,
+                            Owner = model.Owner,
+                            IsActive = true,
+                        };
+
+                        entity.Tasks.Add(newTask);
+                    }
+                }
+
                 ctx.Projects.Add(entity);
             }
 

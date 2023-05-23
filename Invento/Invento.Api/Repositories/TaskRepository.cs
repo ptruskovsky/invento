@@ -14,8 +14,13 @@ namespace Invento.Api.Repositories
             _contextFactory = contextFactory;
         }
 
-        public Task DeleteAsync(string id, string? owner = null) {
-            throw new NotImplementedException();
+        public async Task DeleteAsync(string id, string? owner = null) {
+            using var ctx = _contextFactory.CreateWrite();
+            var existing = await ctx.Tasks.FirstAsync(x => x.Id == id && (x.Owner == owner || owner == null));
+
+            existing.IsActive = false;
+
+            await ctx.SaveChangesAsync();
         }
 
         public async Task<List<TaskModel>> GetAllAsync(int? skip = null, int? take = null, string? owner = null) {

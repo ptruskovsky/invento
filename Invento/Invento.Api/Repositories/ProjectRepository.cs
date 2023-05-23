@@ -1,4 +1,4 @@
-﻿using Invento.Api.Data;
+﻿using Invento.Api.DI.Context;
 using Invento.Api.DI.Repositories;
 using Invento.Api.Models;
 
@@ -8,32 +8,56 @@ namespace Invento.Api.Repositories
 {
     public class ProjectRepository : IProjectRepository
     {
-        private readonly InventoDbContext _context;
-        public ProjectRepository(InventoDbContext context)
+        private readonly IInventoDbContextFactory _contextFactory;
+        public ProjectRepository(IInventoDbContextFactory contextFactory)
         {
-            _context = context;
+            _contextFactory = contextFactory;
         }
 
-        public async Task<List<ProjectModel>> GetAllAsync()
+        public async Task<List<ProjectModel>> GetAllAsync(string? owner = null)
         {
-            return await _context.Projects.Select(x => new ProjectModel
+            using var ctx = _contextFactory.CreateRead();
+            return await ctx.Projects
+                    .Where(x => (x.Owner == owner || owner == null) && x.IsActive)
+                    .Select(ProjectModel.FromEntity).ToListAsync();
+        }
+
+        public async Task<ProjectModel?> GetAsync(string Id, string? owner = null)
+        {
+            using var ctx = _contextFactory.CreateRead();
+            return await ctx.Projects
+                    .Where(x => x.Id == Id && (x.Owner == owner || owner == null) && x.IsActive)
+                    .Select(ProjectModel.FromEntity).FirstOrDefaultAsync();
+        }
+
+        public async Task DeleteAsync(string id, string? owner = null) {
+            using var ctx = _contextFactory.CreateWrite();
+            var existing = await ctx.Projects.FirstAsync(x => x.Id == id && (x.Owner == owner || owner == null));
+
+            existing.IsActive = false;
+
+            await ctx.SaveChangesAsync();
+        }
+
+        public async Task SaveAsync(ProjectModel model)
+        {
+            using var ctx = _contextFactory.CreateWrite();
+
+            var entity = await ctx.Projects.FirstOrDefaultAsync(x => x.Id == model.Id);
+
+            if (entity == null) 
             {
-                Id = x.Id,
-                Name = x.Name,
-                Owner = x.Owner,
-            })
-            .ToListAsync();  
-            
-        }
+                entity = new Data.Entities.Project {
+                    Id = Guid.NewGuid().ToString(),
+                    IsActive = true,
+                    Owner = model.Owner,
+                };
+                ctx.Projects.Add(entity);
+            }
 
-        public Task<ProjectModel> GetAsync(int Id)
-        {
-            throw new NotImplementedException();
-        }
+            model.ToEntity(entity);
 
-        public Task SaveAsync(ProjectModel model)
-        {
-            throw new NotImplementedException();
+            await ctx.SaveChangesAsync();
         }
     }
 }

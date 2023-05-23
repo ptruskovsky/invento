@@ -34,13 +34,23 @@ namespace Invento.Api.Infrastructure
                 _ => transformedHttpTerm = ""
             };
 
-          
-            var requiredGetRoles = new[] { $"{controllerName}-{transformedHttpTerm}".ToLower(), $"{controllerName}-manage-all".ToLower() };
-            //if (!requiredGetRoles.Any(x => roles.Contains(x)))
-            //{
-            //    context.Result = new UnauthorizedObjectResult(string.Empty);
-            //    return;
-            //}
+            var manageAllRole = $"{controllerName}s-manage-all".ToLower();
+            var restrctedRole = $"{controllerName}-{transformedHttpTerm}".ToLower();
+
+            if (roles.Contains(manageAllRole)) 
+            {
+                context.HttpContext.Items["owner"] = null;
+                return;
+            }
+
+            if (roles.Contains(restrctedRole)) 
+            {
+                context.HttpContext.Items["owner"] = user.Identity?.Name;
+            }
+            else {
+                context.Result = new UnauthorizedObjectResult(string.Empty);
+                return;
+            }
         }
     }
 }

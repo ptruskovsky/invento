@@ -1,4 +1,5 @@
 using Invento.Api.Data;
+using Invento.Api.DI.Context;
 using Invento.Api.DI.Repositories;
 using Invento.Api.DI.Services;
 using Invento.Api.Repositories;
@@ -16,6 +17,8 @@ namespace Invento.Api
         {
             var builder = WebApplication.CreateBuilder(args);
             var authKey = File.ReadAllText("key.json");
+
+            builder.Services.AddHttpContextAccessor();
 
             builder.Services.AddAuthentication(options =>
             {
@@ -36,21 +39,12 @@ namespace Invento.Api
                 };
             });
 
-            builder.Services.AddAuthorization(options =>
-            {
-                //options.AddPolicy("Test", policy =>
-                //{
-                //    policy.RequireAuthenticatedUser();
-                //});
-            });
-
-            builder.Services.AddDbContext<InventoDbContext>(options =>
-                options.UseInMemoryDatabase("Invento"));
-
+            builder.Services.AddAuthorization();
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            builder.Services.AddScoped<IInventoDbContextFactory, InventoDbContextFactory>();
             builder.Services.AddScoped<ITaskRepository, TaskRepository>();
             builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
             builder.Services.AddScoped<ITaskService, TaskService>();

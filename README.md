@@ -38,4 +38,4 @@ password: admin
 
 There are should be tokes in response
 
-	3) set keys.json as a part of respone of http://localhost:8080/realms/invento/protocol/openid-connect/token
+	3) set keys.json as a part of response of http://localhost:8080/realms/invento/protocol/openid-connect/token

@@ -18,8 +18,10 @@ Realm roles => add roles:
 Clients => Create client => Client Id => "invento"
 Clients => Create client => Web origins => "*"
 
-Users => Add User => "invento"
+Users => Add User => username "invento", first name "Pavel" (for the test data to be valid)
+
 Users => invento => Tab Credentials => set password  "admin"
+
 Users => invento => Tab Role mapping => map all roles from the  "Realm roles" to the user
 
 Clients => invento => Capability config section => Enable "Direct accesss grants"

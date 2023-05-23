@@ -1,0 +1,428 @@
+{
+	"info": {
+		"_postman_id": "dcaa93b7-16d7-47b6-8fd9-b9c1879b24f5",
+		"name": "invento-labs",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13434222",
+		"_collection_link": "https://grey-satellite-544997.postman.co/workspace/invento-labs~3f5f198a-0b35-4bb3-9dcf-b7ca8037bf40/collection/13434222-dcaa93b7-16d7-47b6-8fd9-b9c1879b24f5?action=share&creator=13434222&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "TEST-KEYCLOAK",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "client_id",
+							"value": "invento",
+							"type": "text"
+						},
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "invento",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/realms/invento/protocol/openid-connect/token",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"realms",
+						"invento",
+						"protocol",
+						"openid-connect",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "TEST-KEYCLOAK Get Keys",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "client_id",
+							"value": "invento",
+							"type": "text"
+						},
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "invento",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/realms/invento/protocol/openid-connect/certs",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"realms",
+						"invento",
+						"protocol",
+						"openid-connect",
+						"certs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET_PROJECT",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{BEARER}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:7170/Project?skip=0&take=1",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7170",
+					"path": [
+						"Project"
+					],
+					"query": [
+						{
+							"key": "skip",
+							"value": "0"
+						},
+						{
+							"key": "take",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET_TASK",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{BEARER}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:7170/Task?skip=0&take=1",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7170",
+					"path": [
+						"Task"
+					],
+					"query": [
+						{
+							"key": "skip",
+							"value": "0"
+						},
+						{
+							"key": "take",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST_PROJECT",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{BEARER}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Name\": \"NewProject\",\r\n    \"Tasks\": [\r\n        {\"Name\" : \"NewTask\"}\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7170/Project",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7170",
+					"path": [
+						"Project"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST_TASK",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{BEARER}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Name\": \"NewTask\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7170/Task",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7170",
+					"path": [
+						"Task"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT_PROJECT",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{BEARER}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Id\": \"fa3645df-c471-4a7a-8c84-10259eb5245e\",\r\n    \"Name\": \"NewProject1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7170/Project",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7170",
+					"path": [
+						"Project"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT_TASK",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{BEARER}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Id\": \"14ccf715-054a-4cf4-ad13-42fc9f33cb25\",\r\n    \"Name\": \"NewTask1!\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7170/Task",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7170",
+					"path": [
+						"Task"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE_PROJECT",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{BEARER}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Id\": \"\",\r\n    \"Name\": \"NewProject1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7170/Project?id=fa3645df-c471-4a7a-8c84-10259eb5245e",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7170",
+					"path": [
+						"Project"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "fa3645df-c471-4a7a-8c84-10259eb5245e"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE_TASK",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{BEARER}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Id\": \"\",\r\n    \"Name\": \"NewProject1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7170/Task?id=14ccf715-054a-4cf4-ad13-42fc9f33cb25",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7170",
+					"path": [
+						"Task"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "14ccf715-054a-4cf4-ad13-42fc9f33cb25"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

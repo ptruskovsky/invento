@@ -11,20 +11,17 @@ namespace Invento.Api.Services
             _projectRepository = projectRepository;
         }
 
-        public Task DeleteAsync(string id, string? owner = null) {
-            return _projectRepository.DeleteAsync(id, owner);
-        }
-            
-        public Task<List<ProjectModel>> GetAllAsync(string? owner = null) {
-            return _projectRepository.GetAllAsync(owner);
-        }
-            
-        public Task<ProjectModel?> GetAsync(string Id, string? onwer = null) {
-            return _projectRepository.GetAsync(Id, onwer);
-        }
+        public Task DeleteAsync(string id, string? owner = null) =>
+            _projectRepository.DeleteAsync(id, owner);
 
-        public Task SaveAsync(ProjectModel model) {
-            return _projectRepository.SaveAsync(model);
-        }
+        public Task<List<ProjectModel>> GetAllAsync(int? skip = null, int? take = null, string? owner = null) =>
+            _projectRepository.GetAllAsync(skip, take, owner);
+
+
+        public Task<ProjectModel?> GetAsync(string Id, string? onwer = null) =>
+            _projectRepository.GetAsync(Id, onwer);
+
+        public Task SaveAsync(ProjectModel model) =>
+            _projectRepository.SaveAsync(model);
     }
 }

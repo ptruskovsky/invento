@@ -1,4 +1,6 @@
 ﻿using System.Linq.Expressions;
+using System.Text.Json.Serialization;
+
 using Invento.Api.Data.Entities;
 
 namespace Invento.Api.Models
@@ -8,6 +10,8 @@ namespace Invento.Api.Models
         public string Id { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
         public string Owner { get; set; } = string.Empty;
+
+        [JsonIgnore]
         public bool IsActive { get; set; }
         public IEnumerable<TaskModel> Tasks { get; set; } = Enumerable.Empty<TaskModel>();
 

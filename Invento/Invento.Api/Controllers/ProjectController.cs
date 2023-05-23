@@ -27,12 +27,12 @@ namespace Invento.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get(int? skip, int? take)
         {
             // todo: move to helper
             var owner = _contextAccessor.HttpContext?.Items["owner"]?.ToString();
             // GetAll is used insted of Get(id) and can be changed as well
-            return Ok(await _projectService.GetAllAsync(owner));
+            return Ok(await _projectService.GetAllAsync(skip, take, owner));
         }
 
         [HttpPost]

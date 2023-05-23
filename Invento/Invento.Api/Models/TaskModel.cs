@@ -1,10 +1,12 @@
-﻿namespace Invento.Api.Models
+﻿using System.Text.Json.Serialization;
+
+namespace Invento.Api.Models
 {
-    public class TaskModel
-    {
+    public class TaskModel {
         public string Id { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
         public string Owner { get; set; } = string.Empty;
+        [JsonIgnore]
         public bool IsActive { get; set; }
     }
 }

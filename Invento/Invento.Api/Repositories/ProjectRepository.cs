@@ -14,12 +14,19 @@ namespace Invento.Api.Repositories
             _contextFactory = contextFactory;
         }
 
-        public async Task<List<ProjectModel>> GetAllAsync(string? owner = null)
+        public async Task<List<ProjectModel>> GetAllAsync(int? skip = null, int? take = null, string? owner = null)
         {
+            var pageSkip = skip ?? 0;
+            var pageTake = take ?? int.MaxValue;
+            
             using var ctx = _contextFactory.CreateRead();
             return await ctx.Projects
                     .Where(x => (x.Owner == owner || owner == null) && x.IsActive)
-                    .Select(ProjectModel.FromEntity).ToListAsync();
+                    .Select(ProjectModel.FromEntity)
+                    .OrderBy(x => x.Owner)
+                    .Skip(pageSkip)
+                    .Take(pageTake)
+                    .ToListAsync();
         }
 
         public async Task<ProjectModel?> GetAsync(string Id, string? owner = null)
